@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="/static/common.css" />
+
+	<title>TinySuggestion-Demo</title>
+</head>
+	
+<body>
+	<section>
+		<input id="q" type="text" onkeyup="show_result()"></input>
+		<input id="submit" type="submit" onclick="show_result()" value="查 询"></input>
+	</section>
+
+	<section class='card'>
+		<div id="sugg_result">
+		</div>
+	</section>
+
+	<footer>
+		feedback: <a id="mailto" href="mailto:wumingda@kanzhun.com">wumingda@kanzhun.com</a>
+	</footer>
+
+	<script src="/static/show.js"></script>
+</body>
+</html>
+

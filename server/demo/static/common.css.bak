@@ -1,0 +1,40 @@
+body {
+  margin: auto;
+  max-width: 1000px;
+
+  font: 14px 'Microsoft YaHei','arial','SimSun','sans-serif';
+}
+
+#q {
+  margin-top: 20px;
+  margin-left: 10px;
+  width: 400px;
+}
+
+input {
+  font: 20px 'Microsoft YaHei','arial','SimSun','sans-serif';
+}
+
+h3 {
+  padding-top: 10px;
+  border-top: 1px solid #80A0B0;
+
+  font-size: 18px;
+  font-weight: bold;
+}
+
+h4 {
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.card {
+  margin: 20px 10px 20px 10px;
+  #background: #F8F8F8;
+}
+
+blockquote {
+  background: #DDD;
+  font: 10px #ccc 'Microsoft YaHei','arial','SimSun','sans-serif';
+}
+
