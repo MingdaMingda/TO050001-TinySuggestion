@@ -1,0 +1,59 @@
+1. Build Index
+
+1.1 Config
+
+ifFullText={0, 1}
+	是否要将原文加入索引
+
+ifPinYin={0,1}
+	是否增加拼音索引
+
+ifMergeSampleText={0, 1}
+	是否合并相同的item
+
+FileInput=<string>
+	待建索引的文件
+
+FileOutputItemSet=<string>
+	输出的item列表
+
+FileOutput=<string>
+	输出的索引文件前缀
+
+topN=<int>
+	选取前N个打分最高的item
+
+1.2 File: InputText
+
+	4 or 3 columns, tab-seperated
+
+Format:
+	text, score, tag-list, [attachment]
+
+e.g.:
+	hello world \t 100 \t hello|world \t 1st program
+
+1.3 Output
+
+	2 file output: text-set, index-set
+
+1.3.1 File: text-set
+
+Format:
+	text-id, text, score, attachment
+
+1.3.2 File: index-set
+
+Format:
+	keyword, list-of-text-id
+
+1.4 Build
+
+1.4.1 steps
+
+	验证输入文件格式
+	text编号
+	建立tag-textid二元关系
+	tag扩充（转拼音等）
+	tag切分并排序，取top-N
+
