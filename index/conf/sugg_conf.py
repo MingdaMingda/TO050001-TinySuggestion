@@ -3,6 +3,7 @@ encoding="UTF-8"
 topN=3
 ifFullText=1
 ifPinYin=1
+ifJianPiny=1
 ifMergeSampleText=1
 
 FileInput="data/input"

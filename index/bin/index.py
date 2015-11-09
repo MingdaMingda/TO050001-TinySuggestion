@@ -9,6 +9,8 @@
 import sugg_conf
 import sys
 
+from pypinyin import lazy_pinyin
+
 class SuggIndexer:
 
 	_h_tid2item = {}
@@ -152,7 +154,6 @@ class SuggIndexer:
 
 			item = self._h_key2item[key]
 
-
 			tags = taglist.split('|')
 
 			for tag in tags:
@@ -167,18 +168,52 @@ class SuggIndexer:
 		ifile.close()
 		sys.stderr.write('[trace] done:%s, %d lines, %d tags\n' % (ifilename, line_no, tag_no))
 
+	def expand_tag(self, tag):
+		'''
+		expand tag by pinyin etc.
+		'''
+		tags = [tag]
+
+		if sugg_conf.ifPinYin == 1:
+			tags = self.expand_tag_by_pinyin(tag, tags)
+
+		return tags
+
 	def get_prefix_list(self, tag):
 		'''
 		generate prefix-list of a tag
 		'''
 		tag_unicode = tag.decode(sugg_conf.encoding)
 
+		tags = self.expand_tag(tag_unicode)
+
+		sys.stdout.write('tags:%s\n' % ('|'.join(tags)).encode(sugg_conf.encoding))
+
 		prefix_list = []
 
-		for i in range(1, len(tag_unicode) + 1):
-			prefix_list.append(tag_unicode[0:i].encode(sugg_conf.encoding))
+		for i in range(0, len(tags)):
+			for j in range(1, len(tags[i]) + 1):
+				prefix_list.append(tags[i][0:j].encode(sugg_conf.encoding))
 
 		return prefix_list
+
+	def expand_tag_by_pinyin(self, tag, tags):
+		'''
+		get pinyin of a tag
+		'''
+		py = lazy_pinyin(tag)
+
+		if sugg_conf.ifPinYin == 1:
+			py_str = ''.join(py)
+			tags.append(py_str)
+
+		if sugg_conf.ifJianPin == 1:
+			jp_str = ''
+			for i in range(0, len(py)):
+				jp_str = '%s%s' % (jp_str, py[i][0])
+			tags.append(jp_str)
+
+		return tags
 
 	def gen_prefix2tid(self):
 		'''
