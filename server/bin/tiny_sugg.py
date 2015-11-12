@@ -9,11 +9,22 @@
 import sugg_conf
 import sys
 
+from pypinyin import lazy_pinyin
+
 class SuggServer:
 
 	_h_tid2item = {}
 	_h_key2item = {}
 	_h_prefix2tids = {}
+
+	def is_chinese_char(uchar):
+        	'''
+		check if chinese character
+		'''
+        	if uchar >= u'u4e00' and uchar<=u'u9fa5':
+                	return True
+        	else:
+                	return False
 
 	def load_item_set(self):
 		'''
@@ -96,7 +107,6 @@ class SuggServer:
 		self.load_item_set()
 		self.load_prefix_index()
 
-
 	def get_sugg(self, prefix):
 		'''
 		get suggestion-list according to a certain prefix
@@ -108,8 +118,20 @@ class SuggServer:
 		if len(prefix) == 0:
 			return sugg_info
 
+		py_flag = False
 		if not prefix in self._h_prefix2tids:
-			return sugg_info
+			if sugg_conf.ifPY == 1:
+				py = lazy_pinyin(prefix.decode(sugg_conf.encoding))
+				py_str = (''.join(py)).encode(sugg_conf.encoding)
+				
+				if not py_str in self._h_prefix2tids:
+					return sugg_info
+
+				### as an alternate, use py_str as prefix
+				prefix = py_str
+				py_flag = True
+			else:
+				return sugg_info
 
 		tids = self._h_prefix2tids[prefix]
 		for tid in tids:
